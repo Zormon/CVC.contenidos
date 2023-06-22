@@ -1,0 +1,62 @@
+---
+app:
+  name: CLIENT
+  domain: domain.com
+  clientType: single
+  offline: false
+path:
+  media: https://domain.com/media
+  music: https://domain.com/music
+color:
+  main: '#a31f1f'
+  secondary: '#168727'
+  emphasis: '#ef6c00'
+  neutral: '#777777'
+  info: '#075299'
+  warn: '#a37f07'
+  error: '#9c0e0b'
+media:
+  pendientes: true
+  defaults:
+    duration: "10"
+    volume: "0"
+    daysToEndDate: "3"
+  types:
+  - name: Catalogo
+    color: '#cb1414'
+  - name: Ofertas
+    color: '#c6d046'
+  - name: Informativo
+    color: '#24849f'
+  - name: Sin Categoria
+    color: '#737373'
+devices:
+  types:
+  - name: Canalcorp
+    color: '#d11616'
+    icon: 1screen
+  - name: Doble
+    color: '#c84848'
+    icon: 2screens
+  - name: Triple
+    color: '#cb6161'
+    icon: 3screens
+  - name: Cuadruple
+    color: '#dd8484'
+    icon: 4screens
+  - name: Turnomatic
+    color: '#ef650a'
+    icon: turnomatic
+  - name: Vertical
+    color: '#adb42e'
+    icon: vertical
+  - name: Totem
+    color: '#8a4d7b'
+    icon: totem
+  - name: Tablet
+    color: '#4858a4'
+    icon: tablet
+  - name: LED
+    color: '#00b5c2'
+    icon: leds
+...
