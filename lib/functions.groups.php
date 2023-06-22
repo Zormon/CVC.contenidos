@@ -9,13 +9,8 @@ namespace groups;
  * Edita el grupo enviado
  * * @return bool true si la consulta fue exitosa
  */
-function edit (&$post, &$img) {
+function edit (&$post) {
     global $mysql;
-
-    if ( $img && $img['name']!= '' ) {
-        $origImg = makeImgFromFile($img);
-        if ($origImg) { imagewebp( image_max_size($origImg, CARDGRID_IMG_MAXWIDTH), __DIR__.'/../img/groups/'.$post['id'].'.webp', 60); }
-    }
 
     $sql = "UPDATE groups SET " .
     "name='" . $post['name'] . "', " .
@@ -31,7 +26,7 @@ function edit (&$post, &$img) {
  * Añade un grupo a la base de datos
  * * @return bool true si la consulta fue exitosa
  */
-function add (&$post, &$img) {
+function add (&$post) {
     $sql = "INSERT INTO groups (name, notes, devices) VALUES('" .
             $post['name'] . "','" .
             $post['notes'] . "','" .
@@ -39,11 +34,6 @@ function add (&$post, &$img) {
 
     global $mysql;
     $mysql->consulta($sql);
-
-    if ( $img && $img['name']!= '' ) {
-        $origImg = makeImgFromFile($img);
-        if ($origImg) { imagewebp( image_max_size($origImg, ROW_IMG_MAXWIDTH), __DIR__.'/../img/groups/'.$mysql->lastInsertId().'.webp', 60); }
-    }
 
     return true;
 }

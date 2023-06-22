@@ -1,10 +1,16 @@
-import {$, selectModal, modalBox, contentBox, fetchPost, sortJson} from '/js/exports.js?3'
+import {$, selectModal, modalBox, contentBox, fetchPost, sortJson, toolTip, toggleRowActions, modalConfirm} from '/js/exports.js?3'
 
 class GROUPS {
     constructor (json, searchElement, orderElement) {
         this.json = json
         this.search = searchElement
         this.order = orderElement
+    }
+
+    details(id) {
+        let group = this.json[id]
+        let html = Mustache.render( $('modalGroupDetails').innerHTML, group )
+        modalBox (html, [ {text:'Cerrar'} ])
     }
 
     modal (id=false)  {
@@ -40,18 +46,18 @@ class GROUPS {
     }
 
     delete (id) {
-        if ( confirm(`¿Borrar grupo ${id}?`) ) {
+        modalConfirm(`¿Borrar grupo ${this.json[id].name}?`, ()=> {
             fetchPost('/api/groups', {mode:'delete', id:id}).then(resp => resp.json()).then( (data)=> {
-                if (data.status == 'ok')   { $(`g${id}`).remove() }
+                if (data.status == 'ok')   { delete this.json[id]; this.printList() }
                 else                { alert(`ERROR: ${data.error}`) }
             })
-        }
+        })
     }
 
     printList () {
         const textFilter = this.search.value.toUpperCase().normalize("NFD").replace(/\p{Diacritic}/gu, "")
         // Limpia la lista
-        const elList = $('groupsList')
+        const elList = $('ul_groups')
         while (elList.firstChild) { elList.removeChild(elList.lastChild) }
 
         let filtered = []
@@ -64,23 +70,24 @@ class GROUPS {
         sortJson(filtered, this.order.value)
         
         if (filtered.length == 0) {
-            contentBox( $('groupsList'), 'info', 'No hay grupos' )
+            contentBox( elList, 'info', 'No hay grupos' )
         } else {
-            contentBox( $('groupsList'), 'info', false )
+            contentBox( elList, 'info', false )
             for (let group of filtered) {
-                let el = document.createElement('div'); el.id = `g${group.id}`
-                el.dataset.id = group.id; el.className = 'card'
-                el.style.backgroundImage = `url(/img/groups/${group.id}.webp)`
+                let li = document.createElement('li'); li.id = `g${group.id}`
+                li.dataset.id = group.id;
                 if (group.ndevices != 1) { group.pdevices = true }
-                el.innerHTML = Mustache.render( $('cardGroup').innerHTML, group )
-                el.querySelector('.title').onclick = (e)=> { e.currentTarget.parentElement.parentElement.classList.toggle('expanded') }
+                li.innerHTML = Mustache.render( $('rowGroup').innerHTML, group )
+                li.querySelectorAll('.tooltip').forEach(el => { el.tooltip = new toolTip(el) })
+                li.querySelector('.trigger-actions').onmouseenter = ev => { toggleRowActions(ev) }
 
-                el.querySelector('.gDetails').onclick = ()=>   { this.details(group.id) }
+                li.querySelector('.gDetails').onclick = ()=>   { this.details(group.id) }
+
                 if (LOGIN.can.edit.groups) {
-                    el.querySelector('.gEdit').onclick = ()=>   { this.modal(group.id) }
-                    el.querySelector('.gDelete').onclick = ()=> { this.delete(group.id) }
+                    li.querySelector('.gEdit').onclick = ()=>   { this.modal(group.id) }
+                    li.querySelector('.gDelete').onclick = ()=> { this.delete(group.id) }
                 }
-                $('groupsList').appendChild(el)
+                elList.appendChild(li)
             }
         }
     }

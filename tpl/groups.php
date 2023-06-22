@@ -1,32 +1,44 @@
-<script type="text/template" id="cardGroup">
+<script type="text/template" id="rowGroup">
     <div class="content">
-        <div class="title">
-            <h2>{{name}}</h2>
-            <h3>{{ndevices}} equipo{{#pdevices}}s{{/pdevices}}</h3>
-        </div>
-
-        
-        <div class="actions">
-        <button class="flat gDetails">Detalles</button>
+        <h3>{{name}}</h3>
+        <p>
+            <?php if ($login->isAdmin) { ?><small class="tag" style="background-color: #222">{{id}}</small><?php } ?>
+            {{ndevices}} equipo{{#pdevices}}s{{/pdevices}}
+        </p>
+    </div>
+    <div class="actions">
+        <button class="trigger-actions flat nohover">&nbsp;<i class="icon-"></i>&nbsp;</button>
+        <button class="gDetails tooltip" data-tt_pos="left" data-tt_text="Detalles">&nbsp;<i class="icon-details"></i>&nbsp;</button>
         <?php if ( $login->can['editGroups'] ) { ?>
             <hr>
-            <button class="flat gEdit">Editar</button>
-            <button class="flat gDelete">Borrar</button>
-            <?php } ?>
-        </div>
-        
-
-        <ul class="info">
-            {{#notes}}<li><i class="icon-nota"></i> {{notes}}</li>{{/notes}}
-            <li><i class="icon-equipo"></i> Equipos:</li>
-            <li>
-                <ul class="devices">
-                    {{#devices}}<li><?php if ( $login->isAdmin ) { ?>[{{id}}]&nbsp;&nbsp; <?php } ?>{{name}} ({{tipo}})</li>{{/devices}}
-                </ul>
-            </li>
-        </ul>
+            <button class="gEdit tooltip" data-tt_pos="left" data-tt_text="Editar">&nbsp;<i class="icon-edit"></i>&nbsp;</button>
+            <button class="gDelete tooltip" data-tt_pos="left" data-tt_text="Borrar">&nbsp;<i class="icon-delete"></i>&nbsp;</button>
+        <?php } ?>
     </div>
 </script>
+
+<script type="text/template" id="modalGroupDetails">
+    <fieldset>
+        <legend>Datos del grupo</legend>
+        <div class="grid">
+            <div class="g12">
+                <p><b>Id:</b> {{id}}</p>
+                <p><b>Nombre:</b> {{name}}</p>
+                <p><b>Notas:</b> {{notes}}</p>
+            </div>
+        </div>
+    </fieldset>
+
+    <fieldset>
+        <legend>Equipos ({{ndevices}})</legend>
+        <div class="g12">
+            {{#devices}}
+                <p>{{name}}</p>
+            {{/devices}}
+        </div>
+    </fieldset>
+</script>
+
 
 <script type="text/template" id="modalGroup">
     <form id="groupData">
@@ -37,13 +49,6 @@
                     <div class="input icon-prefix icon-equipo">
                         <input name="name" type="text" pattern=".{3,}" value="{{name}}" required placeholder=" ">
                         <label for="name">Nombre tienda</label>
-                    </div>
-                </div>
-
-                <div class="g4">
-                    <div class="input icon-prefix icon-equipo">
-                        <input name="imagen" type="file" id="imagen">
-                        <label for="imagen">Foto de tienda</label>
                     </div>
                 </div>
 

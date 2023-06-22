@@ -6,10 +6,6 @@ storage/music/*
 
 
 
-
-img/groups/*
-!img/groups/_void.webp
-
 img/media/*
 !img/media/_void.webp
 

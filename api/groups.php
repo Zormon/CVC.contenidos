@@ -8,9 +8,7 @@ switch ($_POST['mode']) {
 
     case 'add': 
         if ( $login->can['editGroups'] ) {
-            $img = is_uploaded_file($_FILES['imagen']['tmp_name'])? $_FILES['imagen'] : false;
-            
-            groups\add($_POST, $img);
+            groups\add($_POST);
             echo json_encode(["status" => 'ok' ]);
         } else {
             echo json_encode(["status" => 'ko', "error" => 'Permiso denegado' ]);
@@ -19,8 +17,7 @@ switch ($_POST['mode']) {
     
     case 'edit':
         if ( $login->can['editGroups'] ) {
-            $img = is_uploaded_file($_FILES['imagen']['tmp_name'])? $_FILES['imagen'] : false;
-            groups\edit($_POST, $img);
+            groups\edit($_POST);
             echo json_encode(["status" => 'ok' ]);
         } else {
             echo json_encode(["status" => 'ko', "error" => 'Permiso denegado' ]);

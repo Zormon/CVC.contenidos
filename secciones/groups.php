@@ -26,8 +26,8 @@ include(ROOT_DIR.'/tpl/groups.php');
     </div>
 </header>
 
-<main id="main_groups">
-    <section id="groupsList" class="gridView"></section>
+<main class="seccion" id="main_groups">
+    <ol class="rowList" id="ul_groups"></ol>
 </main>
 
 <script type="module">
