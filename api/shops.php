@@ -5,9 +5,7 @@ if ( isset($_POST['mode']) ) {
     switch ($_POST['mode']) {
         case 'add': 
             if ( $login->can['editShops'] ) {
-                $img = ( isset($_FILES['imagen']) && is_uploaded_file($_FILES['imagen']['tmp_name']) )? $_FILES['imagen'] : false;
-
-                shops\add($_POST, $img);
+                shops\add($_POST);
                 echo json_encode(["status" => 'ok' ]);
             } else {
                 echo json_encode(["status" => 'ko', "error" => 'Permiso denegado' ]);
@@ -16,9 +14,7 @@ if ( isset($_POST['mode']) ) {
         
         case 'edit':
             if ( $login->can['editShops'] ) {
-                $img = ( isset($_FILES['imagen']) && is_uploaded_file($_FILES['imagen']['tmp_name']) )? $_FILES['imagen'] : false;
-
-                shops\edit($_POST, $img);
+                shops\edit($_POST);
                 echo json_encode(["status" => 'ok' ]);
             } else {
                 echo json_encode(["status" => 'ko', "error" => 'Permiso denegado' ]);

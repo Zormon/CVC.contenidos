@@ -9,7 +9,7 @@ namespace shops;
  * Edita la tienda en la base de datos
  * * @return bool true si la consulta fue exitosa
  */
-function edit (&$post, &$img) {
+function edit (&$post) {
     global $mysql;
 
     $sql = "UPDATE `shops` SET " .
@@ -29,11 +29,6 @@ function edit (&$post, &$img) {
     $devices = $mysql->consulta('SELECT id FROM devices WHERE shop=' . $post['id']);
     \cache\clear( array_column($devices, 'id'), \cache\type::deploy );
 
-    if ( $img && $img['name']!= '' ) {
-        $origImg = makeImgFromFile($img);
-        if ($origImg) { imagewebp( image_max_size($origImg, CARDGRID_IMG_MAXWIDTH), __DIR__.'/../img/shops/'.$post['id'].'.webp', 60); }
-    }
-
     return true;
 }
 
@@ -41,7 +36,7 @@ function edit (&$post, &$img) {
  * Añade la shop a la base de datos
  * * @return bool true si la consulta fue exitosa
  */
-function add (&$post, &$img) {
+function add (&$post) {
     global $mysql;
 
     $sql = "INSERT INTO `shops` (name, telefono, email, direccion, canal, notas) VALUES('" .
@@ -53,11 +48,6 @@ function add (&$post, &$img) {
             $post['notas'] . "')";
     $mysql->consulta($sql, false);
 
-    if ( $img && $img['name']!= '' ) {
-        $origImg = makeImgFromFile($img);
-        if ($origImg) { imagewebp( image_max_size($origImg, CARDGRID_IMG_MAXWIDTH), __DIR__.'/../img/shops/'.$mysql->lastInsertId().'.webp', 60); }
-    }
-    
     return true;
 }
 
@@ -75,10 +65,6 @@ function delete ( $id ) { //TODO: Borrar el resto de informacion de la tienda en
         \devices\delete($equipo['id']);
     }
     \cache\clear( $devices, \cache\type::all );
-    
-    // Borrar la imagen
-    $oldImg = __DIR__ . "/../img/shops/$id.webp";
-    if (is_file($oldImg)) { unlink($oldImg); }
 
     $mysql->consulta('DELETE FROM `shops` WHERE id=' . $id, false);
 

@@ -1,31 +1,20 @@
-<script type="text/template" id="shopCard">
+<script type="text/template" id="rowShop">
     <div class="content">
-        <div class="title">
-            <h2>{{name}}</h2>
-            <h3>{{ndevices}} equipo{{#pdevices}}s{{/pdevices}}</h3>
-        </div>
-
-        <div class="actions">
-            {{#telefono}}<a class="button flat" href="tel:+34{{telefono}}">Llamar</a>{{/telefono}}
-            {{#email}}<a class="button flat" href="mailto:{{email}}">Email</a>{{/email}}
-            <?php if ( $login->can['editShops'] ) { ?>
-            <hr>
-            <button class="flat tEdit">Editar</button>
-            <button class="flat tDelete">Borrar</button>
-            <?php } ?>
-        </div>
-
-        <ul class="info">
-            {{#telefono}}<li><i class="icon-telefono"></i> {{telefono}}</li>{{/telefono}}
-            {{#email}}<li><i class="icon-mail"></i> {{email}}</li> {{/email}}
-            {{#direccion}}<li><i class="icon-gps"></i> {{direccion}}</li>{{/direccion}}
-            {{#notas}}<li><i class="icon-nota"></i> {{notas}}</li>{{/notas}}
-            <li><i class="icon-equipo"></i> Equipos:</li>
-            <li>
-                <ul class="devices">
-                    {{#devices}}<li><?php if ( $login->isAdmin ) { ?>[{{id}}]&nbsp;&nbsp; <?php } ?>{{name}} ({{tipo}})</li>{{/devices}}
-                </ul>
-            </li>
+        <h3>{{name}}</h3>
+        <p>
+            <?php if ($login->isAdmin) { ?><small class="tag" style="background-color: #222">{{id}}</small><?php } ?>
+            {{ndevices}} equipo{{#pdevices}}s{{/pdevices}}
+        </p>
+    </div>
+    <div class="actions">
+        <button class="trigger-actions flat nohover">&nbsp;<i class="icon-"></i>&nbsp;</button>
+        {{#telefono}}<button class="tCall tooltip" data-tt_pos="right" data-tt_text="Llamar">&nbsp;<i class="icon-telefono"></i>&nbsp;</button>{{/telefono}}
+        {{#email}}<button class="tMail tooltip" data-tt_pos="right" data-tt_text="Enviar correo">&nbsp;<i class="icon-mail"></i>&nbsp;</button>{{/email}}
+        <?php if ( $login->can['editShops'] ) { ?>
+        <hr>
+        <button class="tEdit tooltip" data-tt_pos="left" data-tt_text="Editar">&nbsp;<i class="icon-edit"></i>&nbsp;</button>
+        <button class="tDelete tooltip" data-tt_pos="left" data-tt_text="Borrar">&nbsp;<i class="icon-delete"></i>&nbsp;</button>
+        <?php } ?>
     </div>
 </script>
 

@@ -13,9 +13,6 @@ img/groups/*
 img/media/*
 !img/media/_void.webp
 
-img/shops/*
-!img/shops/_void.webp
-
 img/users/*
 !img/users/_void.webp
 

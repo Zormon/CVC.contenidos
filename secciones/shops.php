@@ -29,8 +29,8 @@ include(ROOT_DIR.'/tpl/shops.php');
     </div>
 </header>
 
-<main id="main_shops">
-    <section id="shopList" class="gridView"></section>
+<main class="seccion" id="main_shops">
+    <ol class="rowList" id="ul_shops"></ol>
 </main>
 
 <script type="module">

@@ -1,10 +1,18 @@
-import {contentBox, $, selectModal, modalBox, fetchPost, sortJson} from '/js/exports.js?3'
+import {contentBox, $, selectModal, modalBox, fetchPost, sortJson, toolTip, toggleRowActions, modalConfirm} from '/js/exports.js?3'
 
 class SHOPS {
     constructor (json, searchElement, orderElement) {
         this.json = json
         this.search = searchElement
         this.order = orderElement
+    }
+
+    makeCall(phone) {
+        location = 'tel:'+phone
+    }
+
+    sendMail(email) {
+        location = 'mailto:'+email
     }
 
     modal(id=false) {
@@ -40,12 +48,12 @@ class SHOPS {
     }
 
     delete(id) {
-        if ( confirm(`¿Borrar tienda ${this.json[id].name}?`) ) {
+        modalConfirm(`¿Borrar tienda ${this.json[id].name}?`, ()=> {
             fetchPost('/api/shops', {mode:'delete', id:id}).then(resp => resp.json()).then( (data)=> {
                 if (data.status == 'ok')     { delete this.json[id]; this.printList() }
                 else                         { alert(`ERROR: ${data.error}`) }
             })
-        }
+        })
     }
 
     /**
@@ -54,7 +62,7 @@ class SHOPS {
     printList() {
         // Limpia la lista
         const textFilter = this.search.value.toUpperCase().normalize("NFD").replace(/\p{Diacritic}/gu, "")
-        const elList = $('shopList')
+        const elList = $('ul_shops')
         while (elList.firstChild) { elList.removeChild(elList.lastChild) }
         
         let filtered = []
@@ -71,18 +79,25 @@ class SHOPS {
         } else {
             contentBox( $('shopList'), 'info', false )
             for (let shop of filtered) {
-                const id = shop.id
-                let el = document.createElement('div'); el.id = `t${id}`
-                el.style.backgroundImage = `url(/img/shops/${id}.webp?${shop.version})`
-                el.className = 'card'
+                let li = document.createElement('li'); li.id = `t${shop.id}`
+                li.dataset.id = shop.id
                 if (shop.ndevices != 1) { shop.pdevices = true }
-                el.innerHTML = Mustache.render( $('shopCard').innerHTML, shop )
-                el.querySelector('.title').onclick = (e)=> { e.currentTarget.parentElement.parentElement.classList.toggle('expanded') }
+                li.innerHTML = Mustache.render( $('rowShop').innerHTML, shop )
+                li.querySelectorAll('.tooltip').forEach(el => { el.tooltip = new toolTip(el) })
+                li.querySelector('.trigger-actions').onmouseenter = ev => { toggleRowActions(ev) }
+
+                const callBtn = li.querySelector('.tCall')
+                if (callBtn) { callBtn.onclick = ()=> { this.makeCall(shop.telefono) } }
+
+                const mailBtn = li.querySelector('.tMail')
+                if (mailBtn) { mailBtn.onclick = ()=> { this.sendMail(shop.email) } }
+
+
                 if (LOGIN.can.edit.shops) {
-                    el.querySelector('.tEdit').onclick = (e)=> { this.modal(id) }
-                    el.querySelector('.tDelete').onclick = (e)=> { this.delete(id) }
+                    li.querySelector('.tEdit').onclick = (e)=> { this.modal(shop.id) }
+                    li.querySelector('.tDelete').onclick = (e)=> { this.delete(shop.id) }
                 }
-                $('shopList').appendChild(el)
+                elList.appendChild(li)
             }
         }
     }
