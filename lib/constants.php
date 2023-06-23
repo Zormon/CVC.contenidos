@@ -43,7 +43,6 @@ const QUERY_DEPLOY     = 1;
 
 // Variables hardcoded
 const MAINLOGO_MAXWIDTH = 800;
-const CARDGRID_IMG_MAXWIDTH = 500;
 const ROW_IMG_MAXWIDTH = 256;
 
 

@@ -1,4 +1,4 @@
-import {toolTip, fetchPost, sortJson, modalBox, selectModal, toggleRowActions, contentBox, $, $$$} from '/js/exports.js?3'
+import {toolTip, fetchPost, sortJson, modalBox, selectModal, toggleRowActions, contentBox, modalConfirm, $, $$$} from '/js/exports.js?3'
 
 class USERS {
     constructor (json, searchElement, orderElement) {
@@ -56,12 +56,12 @@ class USERS {
     }
 
     delete (id) {
-        if ( confirm(`¿Borrar usuario ${id}?`) ) {
+        modalConfirm(`¿Borrar usuario <em>${this.json[id].login}</em> ?`, ()=> {
             fetchPost('/api/users', {mode:'delete', id:id}).then(resp => resp.json()).then( (data)=> {
                 if (data.status == 'ok')   { $(`u${id}`).remove() }
                 else                { alert(`ERROR: ${data}`) }
             })
-        }
+        })
     }
 
     printList () {

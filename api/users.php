@@ -6,8 +6,7 @@ if ( isset($_POST['mode']) ) {
         switch ($_POST['mode']) { // User admins
             case 'add':
                 if ( $login->can['editUsers'] ) {
-                    $img = is_uploaded_file($_FILES['imagen']['tmp_name'])? $_FILES['imagen'] : false;
-                    $tmpPass = users\add($_POST, $img);
+                    $tmpPass = users\add($_POST);
                     echo json_encode(["status" => 'ok', "tmpPass" => $tmpPass ]);
                 } else {
                     echo json_encode(["status" => 'ko', "error" => 'Permiso denegado' ]);
@@ -16,8 +15,7 @@ if ( isset($_POST['mode']) ) {
 
             case 'edit':
                 if ( $login->can['editUsers'] ) {
-                    $img = is_uploaded_file($_FILES['imagen']['tmp_name'])? $_FILES['imagen'] : false;
-                    if ( users\edit($_POST, $img) !== false ) { echo json_encode(["status" => 'ok' ]); }
+                    if ( users\edit($_POST) !== false ) { echo json_encode(["status" => 'ok' ]); }
                 } else {
                     echo json_encode(["status" => 'ko', "error" => 'Permiso denegado' ]);
                 }

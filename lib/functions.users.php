@@ -62,7 +62,7 @@ function fillPermissions(&$row) {
  * Edita el usuario enviado
  * * @return bool true si la consulta fue exitosa
  */
-function edit (&$post, &$img) {
+function edit (&$post) {
     global $mysql;
 
     if (!isset($post['shops'])) { $post['shops'] = []; }
@@ -76,11 +76,6 @@ function edit (&$post, &$img) {
 
     $mysql->consulta($sql, false);
 
-    if ( $img && $img['name']!= '' ) {
-        $origImg = makeImgFromFile($img);
-        if ($origImg) { imagewebp( image_max_size($origImg, CARDGRID_IMG_MAXWIDTH), __DIR__.'/../img/users/'.$post['id'].'.webp', 60); }
-    }
-
     return true;
 }
 
@@ -88,7 +83,7 @@ function edit (&$post, &$img) {
  * Añade un usuario a la base de datos
  * * @return pass devuelve el password temporal generado
  */
-function add (&$post, &$img) {
+function add (&$post) {
     $pass = bin2hex(openssl_random_pseudo_bytes(4));
 
     if (!isset($post['shops'])) { $post['shops'] = []; }
@@ -103,11 +98,6 @@ function add (&$post, &$img) {
     global $mysql;
     $mysql->consulta($sql, false);
 
-    if ( $img && $img['name']!= '' ) {
-        $origImg = makeImgFromFile($img);
-        if ($origImg) { imagewebp( image_max_size($origImg, ROW_IMG_MAXWIDTH), __DIR__.'/../img/users/'.$mysql->lastInsertId().'.webp', 60); }
-    }
-
     //TODO: Comprobar mejor todo
     return $pass;
 }
@@ -119,7 +109,6 @@ function add (&$post, &$img) {
  */
 function delete ( $id ) {
     global $mysql;
-    unlink(__DIR__ . "/../img/users/$id.webp");
 
     $sql = 'DELETE FROM users WHERE id=' . $id;
     return $mysql->consulta($sql, false);

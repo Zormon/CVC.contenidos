@@ -1,5 +1,4 @@
 <script type="text/template" id="rowUser">
-    <img src="/img/users/{{id}}.webp" class="thumb" alt='{{name}}'>
     <div class="content">
         <h3>{{name}}</h3>
         <p>
@@ -57,28 +56,21 @@
         <fieldset>
             <legend>Usuario</legend>
             <div class="grid form">
-                <div class="g6">
+                <div class="g4">
                     <div class="input icon-prefix icon-usuario">
                         <input id="login" name="login" type="text" pattern=".{3,}" placeholder=" " value="{{login}}" <?=($login->isAdmin)?'required':'disabled'?>>
                         <label for="login">Login</label>
                     </div>
                 </div>
 
-                <div class="g6">
+                <div class="g4">
                     <div class="input">
                         <input id="name" name="name" type="text" pattern=".{5,}" placeholder=" " required value="{{name}}">
                         <label for="name">Nombre completo</label>
                     </div>
                 </div>
 
-                <div class="g6">
-                    <div class="input">
-                        <input type="file" accept=".jpg" name="imagen" id="imagen">
-                        <label for="imagen">Imagen</label>
-                    </div>
-                </div>
-
-                <div class="g6">
+                <div class="g4">
                     <div class="input icon-prefix icon-mail">
                         <input id="email" name="email" type="email" placeholder=" " value="{{email}}">
                         <label for="email">Email</label>
