@@ -143,6 +143,24 @@
         > .content { 
             padding: 1em; 
             .warningText { margin-top: 0.5em; }
+
+            > .details {
+                display: flex;
+                flex-direction: row;
+                gap: 1em;
+
+                .tags {
+                    display: flex;
+                    flex-direction: row;
+                    gap: .5em;
+                    > span {
+                        color: RGB(var(--rgb-neutral-light-90));
+                        background-color: RGB(var(--rgb-neutral-dark-10));
+                        border-radius: 1em;
+                        padding: .2em .5em;
+                    }
+                }
+            }
         }
 
         .actions {

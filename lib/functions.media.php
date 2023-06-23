@@ -333,6 +333,8 @@ namespace media {
             }
     
             $row['thumb'] = thumb($row['id']).'?'.$row['version'];
+            $row['tags'] = array_filter(explode(',', $row['tags']));
+            
             $media[$row['id']]= $row;
         }
     

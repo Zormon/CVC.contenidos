@@ -12,7 +12,11 @@
     <div class="previewMedia" data-type="{{type}}" ><img src="{{thumb}}"></div>
     <div class="content">
         <h3>{{name}}{{#audio}} <i class="icon-audio small noHeight"></i>{{/audio}}</h3>
-        <p><i class="icon-calendar noHeight"></i> {{dateFromF}} | {{dateToF}} &nbsp;&nbsp;&nbsp; <i class="icon-clock noHeight"></i> {{duration}} s</p>
+        <p class="details">
+            <span><i class="icon-calendar noHeight"></i> {{dateFromF}} > {{dateToF}}</span>
+            <span><i class="icon-clock noHeight"></i> {{duration}} s</span>
+            <span class="tags">{{#tags}}<span>{{.}}</span>{{/tags}}</span>
+        </p>
         {{#noLists}}<p class="warningText"><em>No está en listas o eventos. <b>¡No se emitirá!</b></em></p>{{/noLists}}
     </div>
     <div class="actions">

@@ -178,8 +178,8 @@ class MEDIA {
         let filtered = []
         for ( let el of Object.values(this.json) ) {
             const name = el.name.toUpperCase().normalize("NFD").replace(/\p{Diacritic}/gu, "")
-            const tags = el.tags.toUpperCase().normalize("NFD").replace(/\p{Diacritic}/gu, "")
-            if ( (textFilter == '' || name.search( textFilter ) != -1 || tags.split(',').indexOf( textFilter ) != -1 ) && 
+            const tags = el.tags.map( el=> { return el.toUpperCase().normalize("NFD").replace(/\p{Diacritic}/gu, "") } )
+            if ( (textFilter == '' || name.search( textFilter ) != -1 || tags.indexOf( textFilter ) != -1 ) && 
             (equipo == 0 || el.devices.includes(equipo)) &&
             (!audio || (el.volume > audio) ) ) {
                 filtered.push( el )
@@ -197,6 +197,7 @@ class MEDIA {
                 li.style = `border-color: ${contenido.color};`
                 if (contenido.volume != 0) { contenido.audio = true }
                 if (!contenido.playlists && !contenido.events) { li.classList.add('noLists'); contenido.noLists = true }
+                //if (contenido.tags) { contenido.tagList = contenido.tags.split(',') }
                 li.innerHTML = Mustache.render( $('rowMedia').innerHTML, contenido )
                 li.querySelectorAll('.tooltip').forEach(el => { el.tooltip = new toolTip(el) })
                 li.querySelector('.trigger-actions').onmouseenter = ev => { toggleRowActions(ev) }
