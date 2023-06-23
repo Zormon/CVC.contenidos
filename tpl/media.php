@@ -17,6 +17,8 @@
     </div>
     <div class="actions">
         <button class="trigger-actions flat nohover">&nbsp;<i class="icon-"></i>&nbsp;</button>
+        <a class="noStyle" href="<?=$_PREFS['path']['media']?>{{file}}" download><button class="cDownload tooltip" data-tt_pos="right" data-tt_text="Descargar">&nbsp;<i class="icon-download"></i>&nbsp;</button></a>
+        <hr>
     <?php 
     if ($_PREFS['media']['pendientes']) {
         if ($_['mStat'] == 'pendientes') { ?>

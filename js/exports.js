@@ -4,6 +4,7 @@ function $$$(sel)    { return document.querySelectorAll(sel)  } //Alias de 'quer
 
 function may(f,...args){try{ return f(...args)}catch{}}
 
+
 /**
  * Pide datos a una URL con la Fetch API enviando datos por post y devuelve la promesa fetch
  * @param {String} url La url al que enviar la peticion
@@ -489,16 +490,31 @@ function previewMedia( url, safeMargin=true ) {
             let video = document.createElement('video'); video.autoplay=video.loop=true; video.src = url
 
             var progressUpdateTimer
-            let progress = document.createElement('progress'); progress.min=0; progress.max=100;
-            let restartBtn = document.createElement('button'); restartBtn.innerHTML = '<i class="icon-replay"></i>'
-            let backBtn = document.createElement('button'); backBtn.className = 'seekCtl'; backBtn.innerHTML = '<i class="icon-back10s"></i>'
-            let playBtn = document.createElement('button'); playBtn.innerHTML = '<i class="icon-pause"></i>'
-            let forwardBtn = document.createElement('button'); forwardBtn.className='seekCtl'; forwardBtn.innerHTML = '<i class="icon-forward10s"></i>'
-            let downloadBtn = document.createElement('button'); downloadBtn.innerHTML = '<i class="icon-download"></i>'
-            let controls = document.createElement('div'); controls.className = 'videoControls'
+            let progress = document.createElement('progress')
+                progress.min=0
+                progress.max=100
+            let restartBtn = document.createElement('button')
+                restartBtn.innerHTML = '<i class="icon-replay"></i>'
+            let backBtn = document.createElement('button')
+                backBtn.className = 'seekCtl'
+                backBtn.innerHTML = '<i class="icon-back10s"></i>'
+            let playBtn = document.createElement('button')
+                playBtn.innerHTML = '<i class="icon-pause"></i>'
+            let forwardBtn = document.createElement('button')
+                forwardBtn.className='seekCtl'
+                forwardBtn.innerHTML = '<i class="icon-forward10s"></i>'
+            let downloadBtn = document.createElement('a')
+                downloadBtn.href = url
+                downloadBtn.className = 'noStyle'
+                downloadBtn.download = url.split('/').at(-1)
+                downloadBtn.innerHTML = `<button><i class="icon-download"></i></button>`
+            let controls = document.createElement('div')
+                controls.className = 'videoControls'
+
             div.appendChild(progress); 
-            controls.appendChild(restartBtn); controls.appendChild(backBtn)
-            controls.appendChild(playBtn); controls.appendChild(forwardBtn)
+            controls.appendChild(restartBtn);   controls.appendChild(backBtn)
+            controls.appendChild(playBtn);      controls.appendChild(forwardBtn)
+            controls.appendChild(downloadBtn)
 
             div.appendChild(video); div.appendChild(controls)
 

@@ -1,6 +1,11 @@
 // Elements
 ul { list-style: none; padding: 0;}
 
+a.noStyle {
+    color: unset;
+    text-decoration: none;
+}
+
 hr[class^="transfer-"] {
     border: 0;
     padding: 100% 0;
