@@ -1,0 +1,205 @@
+/*=============================================
+=            Video modal            =
+=============================================*/
+
+#previewMedia {
+    position: fixed;
+    top:0; left: 0;
+    width: calc(100vw - (100vw - 100%)); height: 100vh;
+    background-color: rgba(0, 0, 0, .5);
+    z-index: 1000;
+    animation: fade-in .3s ease;
+    cursor: zoom-out;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    > div {
+        position: relative;
+        animation: zoom-in .3s ease;
+        box-shadow: 0 0 15px #333;
+        background-color: #333;
+        border-radius: $radius-med;
+        overflow: hidden;
+
+        &.safeMargin::before {
+            content: '';
+            display: block;
+            width: 100%; height: 0;
+            position: absolute;
+            bottom: 11.3%; left: 0;
+            border-top: 2px dashed RGBA(var(--rgb-emphasis-light-30),.5);
+            z-index: 102;   
+        }
+
+        video, img { max-width: 90vw; max-height: 90vh; }
+
+        progress {
+            position: absolute;
+            top: 0; left: 0;
+            width: 100%; height: 3px;
+            border: none;
+            appearance: none;
+            z-index: 101;
+
+            &::-moz-progress-bar, &::-webkit-progress-bar {
+                background-color: RGB(var(--rgb-secondary));
+            }
+        }
+
+        /*----------  Controles de video  ----------*/
+        .videoControls {
+            background: RGBA(var(--rgb-main), 0.6);
+            border-radius: 0 0 $radius-huge $radius-huge;
+            position: absolute;
+            top: 0px; left: 0; right: 0;
+            margin-left: auto; margin-right: auto;
+            font-size: 1.4em;
+            padding: .6em 0;
+            display: flex;
+            justify-content: space-evenly;
+            align-items: center;
+            z-index: 100;
+            transform: translateY(-80px);
+            transition: transform .2s;
+            backdrop-filter: blur(15px);
+
+            button {
+                border: 1px solid white;;
+                border-radius: $radius-big;
+                padding: 0.1em 0;
+                background-color: rgba(255, 255, 255, 0.6);
+                cursor: pointer;
+                width: 3.5em;
+                line-height: 1.8em;
+
+                &:hover { background-color: rgb(255, 255, 255); }
+            }
+        
+            .seekCtl { display: none; }
+
+            &:not(.seekControls) {
+                width: 25em;
+            }
+            &.seekControls {
+                width: 22em;
+                .seekCtl { display: block; }
+            }
+        }
+
+        &:hover {
+            .videoControls { transform: translateY(3px); }
+        }
+    }
+}
+
+
+/*=============================================
+=            Content modal            =
+=============================================*/
+
+#modalBox {
+    position: fixed;
+    font-size: 1rem;
+    z-index: 10;
+    width: 100vw;
+    height: 100vh;
+    top: 0; left: 0;
+    background-color: rgba(0, 0, 0, .6);
+    @supports (backdrop-filter: blur(8px)) {
+        backdrop-filter: blur(8px);
+    }
+    animation: fade-in .3s ease;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+    > div {
+        max-height: 95vh;
+        background-color: RGB(var(--rgb-neutral-light-90));
+        box-shadow: 0 0 20px 0 #00000070;
+        border-radius: $radius-small;
+        display: flex;
+        flex-direction: column;
+        animation: zoom-in .3s ease;
+
+        #modalContent {
+            padding: 2em 2em 0;
+            overflow-y: auto;
+        }
+        
+
+        h2, h3 {
+            margin: 0;
+            text-indent: 3em;
+            color: RGB(var(--rgb-neutral-light-40));
+        }
+
+        > #modalButtons {
+            text-align: right;
+            height: 3em;
+
+            button {
+                box-shadow: none;
+                font-size: .9em;
+                border: none;
+                background: none;
+                padding: 1em 2em;
+                border-radius: 0;
+                cursor: pointer;
+                text-transform: uppercase;
+                color: RGB(var(--rgb-neutral-dark-50));
+
+                &:hover, &:active {
+                    background-color: RGB(var(--rgb-neutral-light-60));
+                }
+            }
+        }
+    }
+}
+
+
+/*=============================================
+=                 Upload Queue                =
+=============================================*/
+
+#uploadQueue {
+    position: fixed;
+    width: 100vw;
+    height: 100vh;
+    backdrop-filter: $blur-low brightness(40%);
+    z-index: 20;
+    left: 0;
+    top: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    > ul {
+        background: white;
+        padding: 1em;
+        max-height: 80vh;
+        overflow-y: scroll;
+        min-width: 500px;
+        border: 8px solid white;
+
+        li {
+            padding: .5em;
+
+            &:nth-child(even) { background-color: RGB(var(--rgb-neutral-light-90)); }
+            &.finished, &.failed { progress{ visibility: hidden; } }
+            &.finished { background-color: RGB(var(--rgb-secondary-light-80)); }
+            &.failed { background-color: RGB(var(--rgb-emphasis-light-30)) }
+
+            > progress {
+                border: none;
+                width: 100%;
+                height: .5em;
+            }
+
+            > em { float: right; }
+        }
+    }
+}

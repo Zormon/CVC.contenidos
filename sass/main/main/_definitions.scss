@@ -1,0 +1,66 @@
+// Screen Sizes
+$small-screen-up: 601px !default;
+$medium-screen-up: 993px !default;
+$medium-and-up: "only screen and (min-width : #{$small-screen-up})" !default;
+$large-and-up: "only screen and (min-width : #{$medium-screen-up})" !default;
+
+// Tamaños
+$actionbar-height: 4rem;
+
+
+/*----------  Parrilla  ----------*/
+$bordesRojos: 4px solid #9c0e0b;
+
+
+/*----------  Detalles  ----------*/
+$blur-low: blur(5px);
+$blur-med: blur(10px);
+$blur-hight: blur(15px);
+
+$radius-small: 3px;
+$radius-med: 5px;
+$radius-big: 8px;
+$radius-huge: 15px;
+
+$cardShadow: #979797 0px 2px 1px -1px, #bbbbbb 0px 1px 1px 0px, #cacaca 0px 1px 3px 0px;
+$rowListShadow: 2px 2px #00000020;
+$buttonShadow: 0 2px 2px 0 rgba(0,0,0,0.14),0 3px 1px -2px rgba(0,0,0,0.12),0 1px 5px 0 rgba(0,0,0,0.2);
+$buttonShadowHover: 0 3px 3px 0 rgba(0,0,0,0.14),0 1px 7px 0 rgba(0,0,0,0.12),0 3px 1px -1px rgba(0,0,0,0.2);
+
+
+/*----------  Grid templates  ----------*/
+$cardGridColums: repeat( auto-fit, minmax(300px, 500px));
+$musicGridColums: repeat( auto-fit, minmax(100px, 200px));
+
+
+@keyframes fade-in {
+    from    { opacity: 0; }
+    to      { opacity: 1; }
+}
+
+@keyframes zoom-in {
+    from    { transform: scale(.6); }
+    to      { transform: scale(1); }
+}
+
+@keyframes zoom-fade-in {
+    from    { transform: scale(.6); opacity: 0; }
+    to      { transform: scale(1); opacity: 1; }
+}
+
+@keyframes slide-fade-toright {
+    from    { transform: translateX(-20%); opacity: 0; }
+    to      { transform: translateX(0%); opacity: 1; }
+}
+@keyframes slide-fade-toleft {
+    from    { transform: translateX(+20%); opacity: 0; }
+    to      { transform: translateX(0%); opacity: 1; }
+}
+@keyframes slide-fade-todown {
+    from    { transform: translateY(-20%); opacity: 0; }
+    to      { transform: translateY(0%); opacity: 1; }
+}
+@keyframes slide-fade-toup {
+    from    { transform: translateY(20%); opacity: 0; }
+    to      { transform: translateY(0%); opacity: 1; }
+}

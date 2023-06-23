@@ -1,0 +1,236 @@
+// Elements
+ul { list-style: none; padding: 0;}
+
+hr[class^="transfer-"] {
+    border: 0;
+    padding: 100% 0;
+
+    &::before {
+        display: flex;
+        width: 100%;
+        height: 100%;
+        font-family: 'CVC Icons';
+        color: RGB(var(--rgb-neutral-light-60));
+        font-size: 160px;
+        text-align: center;
+        align-items: center;
+    }
+}
+hr.transfer-left::before { content: '\E03A'; }
+hr.transfer-right::before { content: '\E03B'; }
+
+/*=============================================
+=                    Botones                  =
+=============================================*/
+
+button:not(.selectModal), a.button {
+    font-size: inherit;
+    border: none;
+    border-radius: $radius-small;
+    cursor: pointer;
+    background: none;
+
+    &:not(.flat):not(.selectModal)    { 
+        box-shadow: $buttonShadow; 
+        &:hover:not(.nohover) { box-shadow: $buttonShadowHover; }
+    }
+    &.flat          { 
+        box-shadow: none; 
+        &:hover:not(.nohover) { background-color: rgba(0,0,0,0.1); }
+    }
+    &:not(.small)   { padding: .5rem 1rem; }
+    &.small         { padding: .3rem .7rem; }
+} a.button {
+    text-decoration: none;
+    color: inherit;
+}
+
+
+// Toggles
+.toggle {
+    input[type="checkbox"] { display: none; }
+
+    label { 
+        border-radius: $radius-med;
+        font-size: 1em;
+        padding: .5em 1em;
+        box-shadow: 1px 2px 3px 0 rgba(0,0,0,.2);
+
+        &:hover {
+            cursor: pointer;
+            box-shadow: 0px 2px 4px 0 rgba(0,0,0,.4);
+        }
+    }
+
+    &.naranja { 
+        input[type="checkbox"]:not(:checked) ~ label { 
+            background-color: white;
+            color: color("orange", "base");
+         }
+
+        input[type="checkbox"]:checked ~ label { 
+            background-color: color("orange", "lighten-1");
+            color: white;
+         }
+    }
+}
+
+
+/*=============================================
+=              Cajas de contenido             =
+=============================================*/
+.contentBox {
+    background-color: white;
+    padding: 1.2em;
+    border-radius: $radius-small;
+    box-shadow: #979797 0px 2px 1px -1px, #bbb 0px 1px 1px 0px, #cacaca 0px 1px 3px 0px;
+    margin: 1em 0;
+}
+
+.infoBox, .errorBox, .warnBox {
+    padding-left: 5rem;
+    position: relative;
+
+    &::before {
+        font-family: 'CVC Icons';
+        font-size: 3rem;
+        position: absolute;
+        top: 0; left: 1rem;
+    }
+}
+
+.errorBox {
+    color: RGB(var(--rgb-error));
+    &::before {
+        content: '\E027';
+    }
+}
+
+.warnBox {
+    color: RGB(var(--rgb-warn));
+    &::before {
+        content: '\E028';
+    }
+}
+
+.infoBox {
+    color: RGB(var(--rgb-info));
+    &::before {
+        content: '\E029';
+    }
+}
+
+#fileUploadList {
+    max-height: 10em;
+    overflow-y: auto;
+    color: color('grey', 'lighten-1');
+}
+
+/*=============================================
+=                  Colecciones                =
+=============================================*/
+
+.coleccion {
+    background-color: color('shades', 'white');
+    padding: 0 1em !important;
+    border: 1px solid color('grey','lighten-2');
+    border-radius: $radius-small;
+
+    li {
+        display: flex;
+        position: relative;
+        align-items: center;
+        height: 4em;
+        border-bottom: 1px solid color('grey','lighten-2');
+
+        &:last-child { border-bottom: none; }
+    }
+
+    &:empty {
+        display: none;
+    }
+}
+
+/*=============================================
+=                   Tooltips                  =
+=============================================*/
+
+.ttBox {
+    position: fixed;
+    background-color: #000b;
+    backdrop-filter: blur(5px);
+    
+    color: white;
+    padding: .6rem 1rem;
+    border-radius: $radius-big;
+    top: 25%;
+    box-shadow: 0 0 6px black;
+    font-size: 1rem;
+    font-weight: bold;
+    z-index: 999;
+    opacity: 0;
+
+    animation-duration: .3s;
+    animation-delay: .5s;
+    animation-fill-mode: forwards;
+}
+
+.ttBox.left {
+    animation-name: slide-fade-toleft;
+}
+
+.ttBox.right {
+    animation-name: slide-fade-toright;
+}
+
+.ttBox.up {
+    animation-name: slide-fade-toup;
+}
+
+.ttBox.down {
+    animation-name: slide-fade-todown;
+}
+
+/*=============================================
+=                   Generics                  =
+=============================================*/
+
+.chartLegend {
+    display: grid;
+    grid-template-columns: 3em 3fr 1fr;
+    row-gap: .3em;
+  }
+  
+.noMargin {
+margin: 0 !important;
+}
+
+.hidden {
+display: none !important;
+}
+
+.invisible {
+visibility: hidden !important;
+}
+
+hr {
+    border-width: 1px 1px 0 0;
+    border-style: solid;
+    border-color: RGB(var(--rgb-neutral-light-20));
+}
+
+.selection-area {
+    background: rgba(46, 115, 252, 0.11);
+    border: 2px solid rgba(98, 155, 255, 0.81);
+    border-radius: $radius-small;
+}
+
+
+small.tag { 
+    background-color: #222;
+    border-radius: 6px;
+    color: #fff;
+    padding: 5px;
+    line-height: 0;
+    margin-right: 5px;
+}
