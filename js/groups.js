@@ -21,9 +21,11 @@ class GROUPS {
             let group = this.json[id]
             let html = Mustache.render( $('modalGroup').innerHTML, group )
             modalBox (html, [ {text:'Cancelar'}, {text:'Editar', action:()=> { return this.send() }} ])
+            $('color').value = group.color
             group.devices.forEach(equipo => { $(`eq${equipo.id}`).selected = true })
         }
 
+        $('color').selectModal = new selectModal( 'color', 'Color', 'list', false )
         $('devices').selectModal = new selectModal( 'devices', 'Equipos', 'grid', true, GLOBAL.groups )
     }
 

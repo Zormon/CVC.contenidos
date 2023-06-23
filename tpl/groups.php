@@ -1,4 +1,5 @@
 <script type="text/template" id="rowGroup">
+    <div class="tag" style="background-color: {{color}}"></div>
     <div class="content">
         <h3>{{name}}</h3>
         <p>
@@ -24,6 +25,7 @@
             <div class="g12">
                 <p><b>Id:</b> {{id}}</p>
                 <p><b>Nombre:</b> {{name}}</p>
+                <p><b>Color:</b> {{color}}</p>
                 <p><b>Notas:</b> {{notes}}</p>
             </div>
         </div>
@@ -45,10 +47,25 @@
         <fieldset>
             <legend>Grupo</legend>
             <div class="grid form">
-                <div class="g6">
+                <div class="g8">
                     <div class="input icon-prefix icon-equipo">
                         <input name="name" type="text" pattern=".{3,}" value="{{name}}" required placeholder=" ">
-                        <label for="name">Nombre tienda</label>
+                        <label for="name">Nombre del grupo</label>
+                    </div>
+                </div>
+
+                <div class="g4">
+                    <div class="input icon-prefix icon-equipo">
+                        <select name="color" id="color">
+                            <option value="#ff0000">Rojo</option>
+                            <option value="#00cc00">Verde</option>
+                            <option value="#0000ff">Azul</option>
+                            <option value="#cccc00">Amarillo</option>
+                            <option value="#ff00ff">Magenta</option>
+                            <option value="#00ffff">Cyan</option>
+                            <option value="#000000">Negro</option>
+                            <option value="#888888">Gris</option>
+                        </select>
                     </div>
                 </div>
 

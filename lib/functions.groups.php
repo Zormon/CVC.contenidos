@@ -14,6 +14,7 @@ function edit (&$post) {
 
     $sql = "UPDATE groups SET " .
     "name='" . $post['name'] . "', " .
+    "color='" . $post['color'] . "', " .
     "devices='" . implode(',', $post['devices']) . "', " .
     "notes='" . $post['notes'] . "' " .
     "WHERE id=" . $post['id'];
