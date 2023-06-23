@@ -1,3 +1,4 @@
+
 import {toolTip, fetchPost, mediaInfo, modalBox, previewMedia, selectModal, toggleRowActions, contentBox, sortableList, sortableListCatalog, $, $$, $$$, modalConfirm, sortJson} from '/js/exports.js?3'
 
 class MEDIA {
@@ -78,7 +79,7 @@ class MEDIA {
     }
 
     delete (id) {
-        modalConfirm(`¿Borrar el contenido ${this.json[id].name}?`, ()=> {
+        modalConfirm(`¿Borrar el contenido <em>${this.json[id].name}</em> ?`, ()=> {
             fetchPost('/api/media', {mode:'delete', ids:id}).then(resp => resp.json()).then( (data)=> {
                 if (data.status == 'ok') { delete this.json[id]; this.printList() }
                 else { console.error(data) }

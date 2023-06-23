@@ -65,7 +65,7 @@ class DEVICES {
     }
 
     delete (id) {
-        modalConfirm(`¿Borrar equipo ${id}?`, ()=> {
+        modalConfirm(`¿Borrar equipo <em>${this.json[id].name}</em> ?`, ()=> {
             fetchPost('/api/devices', {mode:'delete', id:id}).then(resp => resp.json()).then( (data)=> {
                 if (data.status == 'ok')     { $(`e${id}`).remove() }
                 else                         { alert(`ERROR: ${data.error}`) }

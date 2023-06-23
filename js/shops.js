@@ -48,7 +48,7 @@ class SHOPS {
     }
 
     delete(id) {
-        modalConfirm(`¿Borrar tienda ${this.json[id].name}?`, ()=> {
+        modalConfirm(`¿Borrar tienda <em>${this.json[id].name}</em> ?`, ()=> {
             fetchPost('/api/shops', {mode:'delete', id:id}).then(resp => resp.json()).then( (data)=> {
                 if (data.status == 'ok')     { delete this.json[id]; this.printList() }
                 else                         { alert(`ERROR: ${data.error}`) }

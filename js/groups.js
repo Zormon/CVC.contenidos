@@ -48,7 +48,7 @@ class GROUPS {
     }
 
     delete (id) {
-        modalConfirm(`¿Borrar grupo ${this.json[id].name}?`, ()=> {
+        modalConfirm(`¿Borrar grupo <em>${this.json[id].name}</em> ?`, ()=> {
             fetchPost('/api/groups', {mode:'delete', id:id}).then(resp => resp.json()).then( (data)=> {
                 if (data.status == 'ok')   { delete this.json[id]; this.printList() }
                 else                { alert(`ERROR: ${data.error}`) }
