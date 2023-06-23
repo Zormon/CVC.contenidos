@@ -129,8 +129,13 @@
         }
     
         &.actionsVisible {
-            .trigger-actions > i.icon-:before {
-                content: '\E01E';
+            .actions {
+                background: inherit;
+                .trigger-actions {
+                    > i.icon-:before {
+                        content: '\E01E';
+                    }
+                }
             }
         }
 
@@ -143,7 +148,7 @@
         .actions {
             position: absolute;
             right: 0;
-            transition: .2s transform;
+            transition: .2s transform, .4s background;
             
             button.trigger-actions {
                 width: 4em;
