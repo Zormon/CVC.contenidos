@@ -20,7 +20,7 @@ include(ROOT_DIR.'/tpl/devices.php');
             <option value="lastConnect">Última conexión</option>
             <option value="shop">Tienda</option>
             <?php if ($login->isAdmin) { ?>
-                <option value="id">Identificador</option>
+                <option value="id" data-numeric>Identificador</option>
             <?php } ?>
         </select>
         <label for="order">Ordenar por</label>

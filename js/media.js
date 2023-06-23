@@ -185,7 +185,8 @@ class MEDIA {
                 filtered.push( el )
             }
         }
-        sortJson(filtered, this.order.value)
+        const isNumeric = this.order.options[this.order.selectedIndex].dataset.numeric !== undefined
+        sortJson(filtered, this.order.value, isNumeric)
         
         if (filtered.length == 0) {
             contentBox( $('main_media'), 'info', 'No hay contenidos' )

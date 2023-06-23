@@ -17,12 +17,12 @@ require(ROOT_DIR.'/tpl/media.php');
     <div class="input">
         <select id="order">
             <option value="name" selected>Nombre</option>
-            <option value="duration">Duración</option>
+            <option value="duration" data-numeric>Duración</option>
             <option value="categoria">Categoría</option>
             <option value="dateFrom">Desde</option>
             <option value="dateTo">Hasta</option>
             <?php if ($login->isAdmin) { ?>
-                <option value="id">Identificador</option>
+                <option value="id" data-numeric>Identificador</option>
             <?php } ?>
         </select>
         <label for="order">Ordenar por</label>

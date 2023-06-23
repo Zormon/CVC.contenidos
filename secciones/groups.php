@@ -13,8 +13,8 @@ include(ROOT_DIR.'/tpl/groups.php');
     <div class="input">
         <select id="order">
             <option value="name" selected>Nombre</option>
-            <option value="ndevices">Número de equipos</option>
-            <option value="id">Creación</option>
+            <option value="ndevices" data-numeric>Número de equipos</option>
+            <option value="id" data-numeric>Identificador</option>
         </select>
         <label for="order">Ordenar por</label>
     </div>

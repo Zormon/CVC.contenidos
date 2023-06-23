@@ -72,7 +72,8 @@ class SHOPS {
                 filtered.push(el)
             }
         }
-        sortJson(filtered, this.order.value)
+        const isNumeric = this.order.options[this.order.selectedIndex].dataset.numeric !== undefined
+        sortJson(filtered, this.order.value, isNumeric)
     
         if (filtered.length == 0) {
             contentBox( $('shopList'), 'info', 'No hay tiendas' )

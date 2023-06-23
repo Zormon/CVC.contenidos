@@ -17,7 +17,7 @@ include(ROOT_DIR.'/tpl/music.php');
     <div class="input">
         <select id="order">
             <option value="name" selected>Nombre</option>
-            <option value="id">Identificador</option>
+            <option value="id" data-numeric>Identificador</option>
         </select>
         <label for="order">Ordenar por</label>
     </div>

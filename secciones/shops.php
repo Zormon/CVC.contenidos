@@ -14,9 +14,9 @@ include(ROOT_DIR.'/tpl/shops.php');
     <div class="input">
         <select id="order">
             <option value="name" selected>Nombre</option>
-            <option value="ndevices">Número de equipos</option>
+            <option value="ndevices" data-numeric>Número de equipos</option>
             <?php if ($login->can['editDevices']) { ?>
-                <option value="id">Identificador</option>
+                <option value="id" data-numeric>Identificador</option>
             <?php } ?>
         </select>
         <label for="order">Ordenar por</label>
