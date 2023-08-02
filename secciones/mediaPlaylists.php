@@ -30,7 +30,7 @@ include(ROOT_DIR.'/tpl/media.php');
     import {debounce, selectModal, sortableList, sortableListCatalog, may, $, $$$} from '/js/exports.js?5'
 
     const jsonPlaylists = <?=json_encode(media\playlist\listado())?>;
-    const jsonMedia = <?=json_encode(media\listado(TODOS))?>;
+    const jsonMedia = <?=json_encode(media\listado(ACTIVOS))?>;
     var playlists = new MEDIAPLAYLISTS(jsonPlaylists, jsonMedia, $('search'))
     
     $('search').onkeyup = (e)=> {
