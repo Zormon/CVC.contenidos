@@ -126,16 +126,12 @@ function delete ( $id ) {
  */
 function listado($IDs = false) {
     global $mysql;
-    $sql = "SELECT *, DATE_FORMAT(lastLogin, '%d-%m-%y %H:%i') AS lastLogin FROM users";
+    $sql = "SELECT id, name, login, email, permissions, options, lastIp, shops, version, DATE_FORMAT(lastLogin, '%d-%m-%y %H:%i') AS lastLogin FROM users";
     if ($IDs) { $sql .= ' WHERE id IN (' . implode(',', $IDs) . ')'; }
     $dbData = $mysql->consulta( $sql );
     foreach($dbData as $dbRow) {
+        $dbRow['shops'] = explode(',', $dbRow['shops']);
         $dbRow['can'] = fillPermissions($dbRow['permissions']);
-
-        $dbRow['shops'] = array();
-        if ( ! empty($dbRow['shops']) ) { $dbRow['shops'] = $mysql->consulta( 'SELECT id,name FROM shops WHERE id IN (' . $dbRow['shops'] . ')' ); }
-        $dbRow['ndevices'] = count($dbRow['shops']);
-
         $users[$dbRow['id']]= $dbRow;
     }
 

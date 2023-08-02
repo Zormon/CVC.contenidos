@@ -19,7 +19,7 @@ class USERS {
             let user = this.json[id]
             let html = Mustache.render( $('modalUser').innerHTML, user )
             modalBox (html, [ {text:'Cancelar'}, {text:'Editar', action:()=> { return this.send() }} ])
-            user.shops.forEach(shop => { $(`t${shop.id}`).selected = true })
+            user.shops.forEach( s=> { try {  $('t'+s).selected = true }catch(e){}} )
         }
     
         $('isAdmin').onclick = (e)=> {
