@@ -23,17 +23,10 @@
         <fieldset>
             <legend>Tienda</legend>
             <div class="grid form">
-                <div class="g8">
+                <div class="g12">
                     <div class="input icon-prefix icon-equipo">
                         <input name="name" type="text" pattern=".{3,}" value="{{name}}" required placeholder=" ">
                         <label for="name">Nombre tienda</label>
-                    </div>
-                </div>
-
-                <div class="g4">
-                    <div class="input icon-prefix icon-equipo">
-                        <input name="imagen" type="file" accept=".jpg,.png,.gif,.webp" id="imagen" <?php if ( !$login->isAdmin ) { ?>disabled<?php } ?>>
-                        <label for="imagen">Foto de tienda</label>
                     </div>
                 </div>
                 
@@ -70,7 +63,7 @@
         <fieldset>
             <legend>Configuración</legend>
             <div class="grid form">
-                <div class="g4">
+                <div class="g8">
                     <div class="input icon-prefix icon-canales">
                         <select name="canal" id="canal" required>
                         <?php
