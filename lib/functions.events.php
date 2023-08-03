@@ -23,6 +23,10 @@ function edit (&$post) {
     ", `media` = '" . $post['media'] . "'" .
     " WHERE id = " . $post['id'];
 
+    // Cache
+    $oldDevices = explode(',', find(fields:'devices',id:$post['id'])[0]['devices'] );
+    $affectedDevices = array_unique(array_merge($oldDevices, $post['devices']));
+    \cache\clear($affectedDevices,\cache\type::deploy);
 
     return $mysql->consulta($sql, false);
 }
@@ -44,6 +48,8 @@ function add (&$post) {
     ",'" . implode(',', $post['devices']) . "'" .
     ",'" . $post['media'] . "')";
 
+    \cache\clear(explode(devices),\cache\type::deploy);
+
     return $mysql->consulta($sql, false);
 }
 
@@ -55,6 +61,11 @@ function add (&$post) {
 function delete ( $id ) {
     global $mysql;
     $sql = 'DELETE FROM events WHERE id=' . $id;
+
+    // Cache
+    $devices = explode(',', find(fields:'devices',id:$id)[0]['devices'] );
+    \cache\clear($devices,\cache\type::deploy);
+
     return $mysql->consulta($sql, false);
     //TODO: Borrar el resto de informacion de el equipo en contenidos, usuarios, listas, etc
 }

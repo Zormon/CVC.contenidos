@@ -18,7 +18,7 @@ namespace cache {
         switch ($type) {
             case type::all:
             case type::deploy:
-                array_map( 'unlink', glob(ROOT_DIR."/cache/deploy_*.json") );
+                array_map( 'unlink', glob(ROOT_DIR."/cache/deploy/deploy_*.json") );
             break;
         }
     }
@@ -26,7 +26,7 @@ namespace cache {
     function exists($type, $id) {
         switch ($type) {
             case type::deploy: 
-                return file_exists(ROOT_DIR."/cache/deploy_$id.json");
+                return file_exists(ROOT_DIR."/cache/deploy/deploy_$id.json");
             break;
         }
     }
@@ -34,7 +34,7 @@ namespace cache {
     function get($type, $id) {
         switch ($type) {
             case type::deploy: 
-                if ( exists(type::deploy, $id) ) { return file_get_contents(ROOT_DIR."/cache/deploy_$id.json"); }
+                if ( exists(type::deploy, $id) ) { return file_get_contents(ROOT_DIR."/cache/deploy/deploy_$id.json"); }
                 else                             { return false; }
             break;
         }

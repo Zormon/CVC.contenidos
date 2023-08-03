@@ -47,7 +47,7 @@ function image_resize(&$srcImg, $targetW, $targetH=false, $mode=RESIZE_MODE_FILL
 
     $destImg = imagecreatetruecolor($destW, $destH); 
     imagealphablending($destImg, false); imagesavealpha($destImg, true);
-    imagecopyresampled($destImg, $srcImg, $x1, $y1, $x2, $y2, $destW, $destH, $cropW, $cropH);
+    imagecopyresampled($destImg, $srcImg, (int)$x1, (int)$y1, (int)$x2, (int)$y2, (int)$destW, (int)$destH, (int)$cropW, (int)$cropH);
 
     imagedestroy($srcImg);
     return $destImg;
