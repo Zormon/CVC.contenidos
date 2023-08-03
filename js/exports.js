@@ -260,10 +260,11 @@ class selectModal {
     }
 
     filter(pattern) {
-        pattern = pattern.toUpperCase()
+        pattern = pattern.toUpperCase().normalize("NFD").replace(/\p{Diacritic}/gu, "")
         this.ul.childNodes.forEach(li => {
-            if (!li.querySelector('span').textContent.toUpperCase().includes(pattern))    { li.style.display = 'none'}
-            else                                                                          { li.style.display = '' }
+            const text = li.querySelector('span').textContent.toUpperCase().normalize("NFD").replace(/\p{Diacritic}/gu, "")
+            if (!text.includes(pattern))        { li.style.display = 'none' }
+            else                                { li.style.display = '' }
         })
     }
 
