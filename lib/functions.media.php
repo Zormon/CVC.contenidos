@@ -125,12 +125,20 @@ namespace media {
             
         } else { $sqlFile = ''; }
     
+
+        $devices = implode(',', $post['devices']);
+        $dateFrom =     @!!$post['fDateFrom']? "'"  .date("Y-m-d", strtotime($post['fDateFrom']))."'" : 'NULL';
+        $dateTo =       @!!$post['fDateTo']? "'"    .date("Y-m-d", strtotime($post['fDateTo']))  ."'" : 'NULL';
+        $timeFrom =     @!!$post['fTimeFrom']? "'"  .date("H:i:s", strtotime($post['fTimeFrom']))."'" : 'NULL';
+        $timeTo =       @!!$post['fTimeTo']? "'"    .date("H:i:s", strtotime($post['fTimeTo']))  ."'" : 'NULL';
     
         $sql = "UPDATE media SET " . $sqlFile .
             "`name` = '" . $post['name'] . "'" .
-            ", `dateFrom` = '" . date("Y-m-d",strtotime($post['fDateFrom'])) . "'" .
-            ", `dateTo` = '" . date("Y-m-d",strtotime($post['fDateTo'])) . "'" .
-            ", devices = '" . implode(',', $post['devices']) . "'" .
+            ", `dateFrom` = " . $dateFrom .
+            ", `dateTo` = " . $dateTo .
+            ", `timeFrom` = " . $timeFrom .
+            ", `timeTo` = " . $timeTo .
+            ", devices = '" . $devices . "'" .
             ", `volume` = " . $post['volume'] .
             ", `duration` = " . $post['duration'] .
             ", `categoria` = " . $post['categoria'] .
@@ -139,9 +147,12 @@ namespace media {
             ", `version` = NOW()" .
             " WHERE id = " . $post['id'];
     
-        $mysql->consulta($sql, false);
-    
-        return true;
+        // Cache
+        $oldDevices = explode(',', find(fields:'devices',ids:[$post['id']])[0]['devices'] );
+        $affectedDevices = array_unique(array_merge($oldDevices, $post['devices']));
+        \cache\clear($affectedDevices,\cache\type::deploy);
+            
+        return $mysql->consulta($sql, false);
     }
     
     function add ( &$post, &$files) {
@@ -156,13 +167,17 @@ namespace media {
         move_uploaded_file($files["file"]["tmp_name"], ROOT_DIR."/storage/media/$filename");
 
         $mediaInfo = media_info($filename);
+        $devices = implode(',', $post['devices']);
+        $dateFrom =     @!!$post['fDateFrom']? "'"  .date("Y-m-d", strtotime($post['fDateFrom']))."'" : 'NULL';
+        $dateTo =       @!!$post['fDateTo']? "'"    .date("Y-m-d", strtotime($post['fDateTo']))  ."'" : 'NULL';
+        $timeFrom =     @!!$post['fTimeFrom']? "'"  .date("H:i:s", strtotime($post['fTimeFrom']))."'" : 'NULL';
+        $timeTo =       @!!$post['fTimeTo']? "'"    .date("H:i:s", strtotime($post['fTimeTo']))  ."'" : 'NULL';
     
-        $sql = "INSERT INTO media(file, name, dateFrom, dateTo, devices, volume, duration, status, tags, categoria, mediainfo) VALUES('" .
+        $sql = "INSERT INTO media(file, name, dateFrom, dateTo, timeFrom, timeTo, devices, volume, duration, status, tags, categoria, mediainfo) VALUES('" .
         $filename . "','" .
-        $post['name'] . "','" .
-        date("Y-m-d",strtotime($post['fDateFrom'])) . "','" .
-        date("Y-m-d",strtotime($post['fDateTo'])) . "','" .
-        implode(',', $post['devices']) . "','" .
+        $post['name'] . "'," .
+        $dateFrom . "," . $dateTo . "," . $timeFrom . "," . $timeTo . ",'" .
+        $devices . "','" .
         $post['volume'] . "','" .
         $post['duration'] . "','" .
         ($_PREFS['media']['pendientes']?'0':'1') . "','" .
@@ -177,7 +192,10 @@ namespace media {
         create_thumb($id, $filename, $seek);
     
         // Añadir a lista
-        if ( $post['addToPlaylist'] != -1 ) { \media\playlist\addMedia($id, $post['addToPlaylist']); }
+        if ( $post['addToPlaylist'] != -1 ) { 
+            \media\playlist\addMedia($id, $post['addToPlaylist']);
+            \cache\clear($devices, \cache\type::deploy);
+        }
     
         return true;
     }
@@ -192,6 +210,10 @@ namespace media {
     
             $mysql->consulta( 'DELETE FROM `media` WHERE id='.$id, false);
         }
+
+        \cache\clear($ids, \cache\type::deploy);
+
+        return true;
     }
     
     function status ( $id, $state = ENABLED ) {
@@ -302,13 +324,13 @@ namespace media {
 
         switch ($estado) {
             case ACTIVOS:
-                $sql .= 'WHERE status=' . ENABLED . ' AND dateTo >= CURRENT_DATE()';
+                $sql .= 'WHERE status=' . ENABLED . ' AND (dateTo >= CURRENT_DATE() OR dateTo IS NULL)';
             break;
             case PENDIENTES:
-                $sql .= 'WHERE status=' . DISABLED . ' AND dateTo >= CURRENT_DATE()';
+                $sql .= 'WHERE status=' . DISABLED . ' AND (dateTo >= CURRENT_DATE() OR dateTo IS NULL)';
             break;
             case ACTUALES:
-                $sql .= 'WHERE status=' . ENABLED . ' AND dateFrom <= CURRENT_DATE() AND dateTo >= CURRENT_DATE()';
+                $sql .= 'WHERE status=' . ENABLED . ' AND (dateFrom <= CURRENT_DATE() OR dateFrom IS NULL) AND (dateTo >= CURRENT_DATE() OR dateTo IS NULL)';
             break;
             case FUTUROS:
                 $sql .= 'WHERE status=' . ENABLED . ' AND dateFrom > CURRENT_DATE()';
@@ -447,11 +469,13 @@ namespace media\playlist {
             "WHERE id=" . $data['id'] . ';';
         }
 
-        $mysql->consulta($sql);
-    
-        // Borrar la cache
-        \cache\clearAll(\cache\type::deploy); //TODO: Borrar solo cache de devices afectados
-        return true;
+        
+        // Cache
+        $oldDevices = explode(',', find(fields:'devices',id:$post['id'])[0]['devices'] );
+        $affectedDevices = array_unique(array_merge($oldDevices, $post['devices']));
+        \cache\clear($affectedDevices,\cache\type::deploy);
+        
+        return $mysql->consulta($sql);
     }
     
     function addMedia($media, $playlist) {
@@ -464,12 +488,13 @@ namespace media\playlist {
     
     function delete ( $id ) {
         global $mysql;
-        $mysql->consulta('DELETE FROM mediaPlaylists WHERE id=' . $id);
-        \cache\clearAll(\cache\type::deploy); //TODO: Borrar solo cache de devices afectados
 
-        return true;
+        // Cache
+        $affectedDevices = explode(',', find(fields:'devices',id:$post['id'])[0]['devices'] );
+        \cache\clear($affectedDevices,\cache\type::deploy);
+
+        return $mysql->consulta('DELETE FROM mediaPlaylists WHERE id=' . $id);
         //TODO: Borrar el resto de informacion
-        
     }
     /**
      * Devuelve un array con todas las playlists existentes

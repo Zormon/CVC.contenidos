@@ -101,13 +101,7 @@ class MEDIA {
 
     modal (id) {
         if (!id) {
-            let date = new Date().toISOString()
-            let date2 = new Date()
-            date2.setDate(date2.getDate() + parseInt(GLOBAL.config.media.defaults.daysToEndDate))
-            date2 = date2.toISOString()
-            let html = Mustache.render( $('modalEditMedia').innerHTML, {volume: GLOBAL.config.media.defaults.volume, duration: GLOBAL.config.media.defaults.duration,
-                dateFrom: `${date.substring(0,4)}-${date.substring(5,7)}-${date.substring(8,10)}`,
-                dateTo: `${date2.substring(0,4)}-${date2.substring(5,7)}-${date2.substring(8,10)}` })
+            let html = Mustache.render( $('modalEditMedia').innerHTML, {volume: GLOBAL.config.media.defaults.volume, duration: GLOBAL.config.media.defaults.duration})
             modalBox (html, [ {text:'Cancelar'}, {text:'Añadir', action:()=> { return this.send(true) }} ])
         } else {
             let cont = this.json[id]

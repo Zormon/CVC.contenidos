@@ -171,17 +171,31 @@
                     </div>
                 </div>
 
-                <div class="col g6">
+                <div class="col g3">
                     <div class="input">            
                         <input id="fDateFrom" name="fDateFrom" type="date" value="{{dateFrom}}">
                         <label for="fDateFrom">Fecha desde</label>
                     </div>
                 </div>
 
-                <div class="col g6">
+                <div class="col g3">
                     <div class="input">            
                         <input id="fDateTo" name="fDateTo" type="date" value="{{dateTo}}">
                         <label for="fDateTo">Fecha hasta</label>
+                    </div>
+                </div>
+
+                <div class="col g3">
+                    <div class="input">            
+                        <input id="fTimeFrom" name="fTimeFrom" type="time" value="{{timeFrom}}">
+                        <label for="fTimeFrom">Hora desde</label>
+                    </div>
+                </div>
+
+                <div class="col g3">
+                    <div class="input">            
+                        <input id="fTimeTo" name="fTimeTo" type="time" value="{{timeTo}}">
+                        <label for="fTimeTo">Hora hasta</label>
                     </div>
                 </div>
 
