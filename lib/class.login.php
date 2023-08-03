@@ -9,6 +9,7 @@ class login {
     public $permissions = array();
     public $shops = array();
     public $devices = array();
+    public $can = array();
 
     function fill_user_data($id) {
         global $mysql;
