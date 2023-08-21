@@ -394,7 +394,8 @@ namespace media {
             if (!$simpleOutput) {
                 $sql .= ",DATE_FORMAT(dateFrom, '%d-%m-%Y') AS dateFromF, DATE_FORMAT(dateTo, '%d-%m-%Y') AS dateToF";
             }
-            $sql .= " FROM idList INNER JOIN media ON idList.id = media.id WHERE status=1 AND dateFrom <= CURRENT_DATE() AND dateTo >= CURRENT_DATE()";
+            $sql .= " FROM idList INNER JOIN media ON idList.id = media.id WHERE status=1";
+            $sql .= " AND (dateFrom IS NULL OR dateFrom <= CURRENT_DATE()) AND (dateTo IS NULL OR dateTo >= CURRENT_DATE())";
             if ($id != -1) { $sql.= " AND find_in_set( '" . $id . "', devices )"; }
             
             $dataDB = $mysql->query($sql);
