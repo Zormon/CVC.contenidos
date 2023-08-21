@@ -67,10 +67,11 @@ switch ($_POST['mode']) {
     break;
 
     case 'savePlaylist':
-        if ( $login->can['editMusic'] && \media\playlist\save($_POST)) { 
-            echo json_encode( ["status" => 'ok'] );
-        } else {
+        if ( !$login->can['editMusic']) { 
             echo json_encode(["status" => 'ko', "error" => 'Permiso denegado' ]); 
+        } else {
+            echo json_encode( ["status" => 'ok'] );
+            \media\playlist\save($_POST);
         }
     break;
 
