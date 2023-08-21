@@ -471,8 +471,8 @@ namespace media\playlist {
 
         
         // Cache
-        $oldDevices = explode(',', find(fields:'devices',id:$post['id'])[0]['devices'] );
-        $affectedDevices = array_unique(array_merge($oldDevices, $post['devices']));
+        $oldDevices = explode(',', find(fields:'devices',id:$data['id'])[0]['devices'] );
+        $affectedDevices = array_unique(array_merge($oldDevices, $data['devices']));
         \cache\clear($affectedDevices,\cache\type::deploy);
         
         return $mysql->consulta($sql);
