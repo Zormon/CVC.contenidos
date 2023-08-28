@@ -65,8 +65,10 @@ namespace deploy {
     }
 
     function mediaCatalog($parrilla, $events) {
-        $evMedia = \media\find(fields:'id,name,file,dateFrom,dateTo,duration,volume,transition',ids:$events);
-        $parrilla = array_merge($parrilla, $evMedia);
+        if ($events) {
+            $evMedia = \media\find(fields:'id,name,file,dateFrom,dateTo,duration,volume,transition',ids:$events);
+            $parrilla = array_merge($parrilla, $evMedia);
+        }
         
         $catalog = [];
         foreach ($parrilla as $m) {
