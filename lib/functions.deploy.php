@@ -30,9 +30,13 @@ namespace deploy {
     }
 
     function events($id) {
-        $return = \events\find(device:$id);
+        $evs = \events\find(device:$id);
 
-        return $return;
+        foreach ($evs as &$v) {
+            $v['time'] = substr($v['time'], 0, 5);
+        }
+
+        return $evs;
     }
 
     function power($power) {
