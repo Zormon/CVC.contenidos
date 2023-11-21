@@ -48,7 +48,7 @@ function add (&$post) {
     ",'" . implode(',', $post['devices']) . "'" .
     ",'" . $post['media'] . "')";
 
-    \cache\clear(explode(devices),\cache\type::deploy);
+    \cache\clear($post['devices'],\cache\type::deploy);
 
     return $mysql->consulta($sql, false);
 }
