@@ -63,7 +63,7 @@
         <fieldset>
             <legend>Configuración</legend>
             <div class="grid form">
-                <div class="g8">
+                <div class="g5">
                     <div class="input icon-prefix icon-canales">
                         <select name="canal" id="canal" required>
                         <?php
@@ -74,6 +74,28 @@
                         ?>
                         </select>
                         <label for="canal">Hilo musical</label>
+                    </div>
+                </div>
+
+                <div class="g5">
+                    <div class="input icon-prefix icon-media">
+                    <select name="closingEventMedia" id="closingEventMedia" required>
+                        <option value="-1">Ninguno</option>
+                        <?php
+                            $media = media\listado(ACTUALES, ['name']);
+                            foreach ($media as $m) {
+                                ?><option value="<?=$m['id']?>"><?=$m['name']?></option><?php
+                            }
+                        ?>
+                        </select>
+                        <label for="closingEventMedia">Aviso de cierre</label>
+                    </div>
+                </div>
+
+                <div class="g2">
+                    <div class="input">
+                        <input name="closingEventMinutes" id="closingEventMinutes" type="number" min="1" placeholder=" ">
+                        <label for="closingEventMinutes">Minutos</label>
                     </div>
                 </div>
             </div>

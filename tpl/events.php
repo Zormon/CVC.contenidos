@@ -51,7 +51,7 @@
                             }
                         ?>
                         </select>
-                        <label for="devices">Contenido</label>
+                        <label for="media">Contenido</label>
                     </div>
                 </div>
             </div>

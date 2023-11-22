@@ -9,12 +9,14 @@ class DB extends PDO {
         } catch (Exception $e) { die("¡Error al conectar a DB!: " . $e->getMessage() . "<br/>"); }
     }
 
-    function consulta( $sql, $fetch=true ) {
+    function consulta( $sql, $fetch=true ):array {
+        $result = [];
         try {
             $this->prep = $this->prepare($sql);
             $this->prep->execute();
-            if ($fetch) { return $this->prep->fetchAll(PDO::FETCH_ASSOC); }
-        } catch (PDOException $e) { die("¡Error en consulta!: " . $e->getMessage() . "<br/> Consulta: " . $sql); }
+            if ($fetch) { $result = $this->prep->fetchAll(PDO::FETCH_ASSOC); }
+        } catch (PDOException $e) { die("¡Error en consulta!: " . $e->getMessage() . "<br/> Consulta: " . $sql); 
+        } finally { return $result; }
     }
 
     function nextRowset() {

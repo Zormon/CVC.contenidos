@@ -78,17 +78,25 @@ function delete ( $id ) {
 /**
  * Busca elementos en la base de datos
  *
- * @param string $fields Campos a recuperar de la base de datos
- * @param number $id
- * @param string $name Nombre en expresion SQL 'LIKE'
- * @param number $media Id del contenido
- * @param string $dateFrom Expresión de comparación de fecha desde, e.j. `> '2022-09-01`
- * @param string $dateTo Expresión de comparación de fecha hasta, e.j. `<= '2023-09-01`
- * @param string $time ID del dispositivos a buscar
- * @param number $device ID del dispositivos a buscar
- * @return void
+ * @param $fields Campos a recuperar de la base de datos
+ * @param $id
+ * @param $name Nombre en expresion SQL 'LIKE'
+ * @param $media Id del contenido
+ * @param $dateFrom Expresión de comparación de fecha desde, e.j. `> '2022-09-01`
+ * @param $dateTo Expresión de comparación de fecha hasta, e.j. `<= '2023-09-01`
+ * @param $time ID del dispositivos a buscar
+ * @param $device ID del dispositivos a buscar
  */
-function find($fields='*',$id=null,$name=null,$media=null,$dateFrom=null,$dateTo=null,$time=null,$device=null) {
+function find(
+    string $fields = '*',
+    int|null $id = null,
+    string|null $name = null,
+    int|null $media = null,
+    string|null $dateFrom = null,
+    string|null $dateTo = null,
+    string|null $time = null,
+    int|null $device = null
+):array {
     global $mysql;
     $q = array_fill(0,6,'');
 

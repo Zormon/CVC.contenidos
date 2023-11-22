@@ -24,9 +24,16 @@ class SHOPS {
             let html = Mustache.render( $('modalShop').innerHTML, shop )
             modalBox (html, [ {text:'Cancelar'}, {text:'Editar', action:()=> { return this.edit(false)}} ])
             $('canal').value = shop.canal
+            if (!!shop.closingEvent.media) {
+                $('closingEventMedia').value = shop.closingEvent.media
+                $('closingEventMinutes').value = shop.closingEvent.minutes
+            } else {
+                $('closingEventMedia').value = -1
+            }
         }
 
         $('canal').selectModal = new selectModal( 'canal', 'Hilo musical', 'list' )
+        $('closingEventMedia').selectModal = new selectModal( 'closingEventMedia', 'Contenido', 'list', true )
     }
 
     edit(add=false) {

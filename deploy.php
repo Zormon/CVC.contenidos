@@ -17,20 +17,25 @@ if ($output && !NOCACHE) {
     $device = $device[array_key_first($device)];
     
     global $mysql;
-    $canal = \shops\find(fields:'canal', ids:[$device['shop']])[0]['canal'];
+    $shop = \shops\find(fields:'canal,closingEvent', ids:[$device['shop']])[0];
+    $canal = $shop['canal'];
 
     $parrilla = \media\parrilla($device['id'], true);
     $musica = \music\playlist\songList($canal);
     
     $json['info'] = \deploy\info($device);
+    $json['power'] = \deploy\power($device['power']);
     $json['media'] = \deploy\media($parrilla);
     $json['music'] = \deploy\music($canal);
     $json['events'] = \deploy\events($device['id']);
+
+    $closingEventConfig = json_decode($shop['closingEvent'], true);
+    array_push($json['events'], ...\deploy\closingEvents($closingEventConfig, $device));
+    
     
     $json['catalog']['media'] = \deploy\mediaCatalog($parrilla, array_column($json['events'], 'media'));
     $json['catalog']['music'] = \deploy\musicCatalog($musica);
 
-    $json['power'] = \deploy\power($device['power']);
 
     if (!NOCACHE) { $json['cached'] = date(DATE_RFC2822); }
 

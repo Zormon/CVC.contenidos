@@ -12,12 +12,22 @@ namespace shops;
 function edit (&$post) {
     global $mysql;
 
+    if ($post['closingEventMedia']==-1) {
+        $closingEvent = '{}';
+    } else {
+        $closingEvent = json_encode(array(
+            'media' => (int)$post['closingEventMedia'],
+            'minutes' => (int)$post['closingEventMinutes']
+        ));
+    }
+
     $sql = "UPDATE `shops` SET " .
     "name='" . $post['name'] . "', " .
     "telefono='" . $post['telefono'] . "', " .
     "email='" . $post['email'] . "', " .
     "direccion='" . $post['direccion'] . "', " .
     "notas='" . $post['notas'] . "', " .
+    "closingEvent='" . $closingEvent . "', " .
     "canal='" . $post['canal'] . "', " .
     "version=NOW()" .
     "WHERE id=" . $post['id'];
@@ -102,9 +112,14 @@ function listado($IDs = false) {
     $dbData = $mysql->consulta( $sql );
 
     $shops = array();
-    foreach ($dbData as $dbRow) { // Añadir todos los devices a cada shop
+    foreach ($dbData as $dbRow) { 
+        // Añadir todos los devices a cada shop
         $dbRow['devices'] = $mysql->consulta('SELECT id,name,tipo FROM devices WHERE shop=' . $dbRow['id']);
         $dbRow['ndevices'] = count($dbRow['devices']);
+
+        // Evento de cierre
+        $dbRow['closingEvent'] = json_decode($dbRow['closingEvent'] );
+        
 
         $shops[$dbRow['id']]= $dbRow;
     }

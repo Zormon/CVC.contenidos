@@ -29,7 +29,7 @@ namespace deploy {
         return $return;
     }
 
-    function events($id) {
+    function events($id, $closingEvent=null) {
         $evs = \events\find(device:$id);
 
         foreach ($evs as &$v) {
@@ -37,6 +37,40 @@ namespace deploy {
         }
 
         return $evs;
+    }
+
+    function closingEvents($config, $device):array {
+        $events = [];
+        if (isset($config['media'])) {
+            $mins = $config['minutes'] ?? 1;
+
+            $days = [
+                ['id' => 'L', 'name' => 'Lunes'],
+                ['id' => 'M', 'name' => 'Martes'],
+                ['id' => 'X', 'name' => 'Miércoles'],
+                ['id' => 'J', 'name' => 'Jueves'],
+                ['id' => 'V', 'name' => 'Viernes'],
+                ['id' => 'S', 'name' => 'Sábado'],
+                ['id' => 'D', 'name' => 'Domingo'],
+            ];
+            
+            foreach ($days as $k => $v) {
+                $time = $device['power']->{$v['id']}->off;
+                
+                if ($time == '') { continue; }
+                array_push($events, array(
+                    'id' => ($k + 1) * -1,
+                    'name' => 'Aviso cierre ' . $v['name'],
+                    'media' => $config['media'],
+                    'dateFrom' => null,
+                    'dateTo' => null,
+                    'time' => date('H:i', strtotime($time . "-$mins minutes")),
+                    'weekdays' => pow(2, $k),
+                    'devices' => $device['id'],
+                ));
+            }
+        }
+        return $events;
     }
 
     function power($power) {

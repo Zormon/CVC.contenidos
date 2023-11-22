@@ -83,15 +83,21 @@ namespace media {
     /**
      * Busca elementos en la base de datos
      *
-     * @param String $fields Campos a recuperar de la base de datos
-     * @param Array $ids Array con los IDs
-     * @param String $name Nombre en expresion SQL 'LIKE'
-     * @param String $dateFrom Expresión de comparación de fecha desde, e.j. `> '2022-09-01`
-     * @param String $dateTo Expresión de comparación de fecha hasta, e.j. `<= '2023-09-01`
-     * @param Number $device ID del dispositivos a buscar
-     * @return void
+     * @param $fields Campos a recuperar de la base de datos
+     * @param $ids Array con los IDs
+     * @param $name Nombre en expresion SQL 'LIKE'
+     * @param $dateFrom Expresión de comparación de fecha desde, e.j. `> '2022-09-01`
+     * @param $dateTo Expresión de comparación de fecha hasta, e.j. `<= '2023-09-01`
+     * @param $device ID del dispositivos a buscar
      */
-    function find($fields='*',$ids=null,$name=null,$dateFrom=null,$dateTo=null,$device=null) {
+    function find(
+        string $fields = '*',
+        array|null $ids = null,
+        string|null $name = null,
+        string|null $dateFrom = null,
+        string|null $dateTo = null,
+        int|null $device = null
+    ): array {
         global $mysql;
         $q = array_fill(0,4,'');
 
@@ -434,14 +440,19 @@ namespace media\playlist {
     /**
      * Busca elementos en la base de datos
      *
-     * @param String $fields Campos a recuperar de la base de datos
-     * @param Number $id
-     * @param String $name Nombre en expresion SQL 'LIKE'
-     * @param Number $media ID de contenido a buscar
-     * @param Number $device ID de dispositivo a buscar
-     * @return void
+     * @param $fields Campos a recuperar de la base de datos
+     * @param $id
+     * @param $name Nombre en expresion SQL 'LIKE'
+     * @param $media ID de contenido a buscar
+     * @param $device ID de dispositivo a buscar
      */
-    function find($fields='*',$id=null,$name=null,$media=null,$device=null) {
+    function find(
+        string $fields='*',
+        int|null $id=null,
+        string|null $name=null,
+        int|null $media=null,
+        int|null $device=null
+    ):array {
         global $mysql;
         $q = array_fill(0,3,'');
 
@@ -491,7 +502,7 @@ namespace media\playlist {
         global $mysql;
 
         // Cache
-        $affectedDevices = explode(',', find(fields:'devices',id:$post['id'])[0]['devices'] );
+        $affectedDevices = explode(',', find(fields:'devices',id:$id)[0]['devices'] );
         \cache\clear($affectedDevices,\cache\type::deploy);
 
         return $mysql->consulta('DELETE FROM mediaPlaylists WHERE id=' . $id);
